@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Person ❤️</title>
+    <style>
+        :root {
+            --pink-light: #ffdeeb;
+            --pink-medium: #ffafcc;
+            --pink-dark: #ff2a6d;
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', 'cursive', sans-serif;
+            background: linear-gradient(180deg, #ffafcc 0%, #ffc8dd 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Floating Hearts Animation */
+        .heart-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.6);
+            animation: float 6s linear infinite;
+            font-size: 20px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            padding: 2rem;
+            border-radius: 40px;
+            border: 4px solid white;
+            box-shadow: 0 15px 35px rgba(255, 75, 110, 0.2);
+            text-align: center;
+            width: 320px;
+            position: relative;
+        }
+
+        h1, h3 { color: #d03160; margin-top: 0; }
+        .hidden { display: none !important; }
+
+        /* Passcode Section */
+        .dot-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--pink-dark);
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .dot.filled { background: var(--pink-dark); box-shadow: 0 0 10px var(--pink-dark); }
+
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .key {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            border: 2px solid #ffd1dc;
+            transition: 0.2s;
+            color: #d03160;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        #yesBtn {
+            background: var(--pink-dark);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        #noBtn {
+            background: white;
+            color: var(--pink-dark);
+            border: 2px solid var(--pink-dark);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        /* Gallery Screen */
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        /* Popups */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid var(--pink-light);
+        }
+
+        .close-btn {
+            margin-top: 15px;
+            padding: 8px 15px;
+            border-radius: 10px;
+            border: none;
+            background: var(--pink-dark);
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-bg" id="heartBg"></div>
+
+    <div id="passcodePage" class="card">
+        <h3>Locked for My Love</h3>
+        <div class="dot-container" id="dotContainer">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="keypad" id="keypad">
+            <div class="key">1</div><div class="key">2</div><div class="key">3</div>
+            <div class="key">4</div><div class="key">5</div><div class="key">6</div>
+            <div class="key">7</div><div class="key">8</div><div class="key">9</div>
+            <div></div><div class="key">0</div><div></div>
+        </div>
+    </div>
+
+    <div id="questionPage" class="card hidden">
+        <h1>🧸</h1>
+        <h2>Will you be my Valentine?</h2>
+        <div class="btn-group">
+            <button id="yesBtn" onclick="goToFinal()">YES! ❤️</button>
+            <button id="noBtn" onclick="makeYesBigger()">No 🥺</button>
+        </div>
+    </div>
+
+    <div id="finalPage" class="card hidden">
+        <h2 style="color: var(--pink-dark);">I Love You! ✨</h2>
+        <div class="app-grid">
+            <div onclick="openPopup('msgPopup')">
+                <div class="icon-circle" style="background: #4cd964;">✉️</div>
+                <p style="font-size: 12px;">Message</p>
+            </div>
+            <div onclick="openPopup('camPopup')">
+                <div class="icon-circle" style="background: #ffcc00;">📷</div>
+                <p style="font-size: 12px;">Gallery</p>
+            </div>
+        </div>
+
+        <div id="msgPopup" class="popup hidden">
+            <p>You are special to me, I can't explain in words how much i love you. I hope you know that i will always choose you, No matter how heavy the problem gets, leaving you will never be an option for me. Dahil kahit anong sungit mo ikaw pa rin ang pipiliin ko. Thank you bi for treating my heart so gently and for choosing me. Happy 8th Months of Love and Valentines bi, I love you!💖🌹</p>
+            <button class="close-btn" onclick="closePopups()">Close</button>
+        </div>
+
+        <div id="camPopup" class="popup hidden">
+            <div class="photo-grid">
+                <img src="img1.png" alt="Photo 1">
+                <img src="img2.png" alt="Photo 2">
+                <img src="img3.png" alt="Photo 3">
+                <img src="img4.png" alt="Photo 4">
+                <img src="img5.png" alt="Photo 5">
+                <img src="img6.png" alt="Photo 6">
+            </div>
+            <button class="close-btn" onclick="closePopups()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const CORRECT_CODE = "061325";
+        let input = "";
+        let yesScale = 1;
+
+        // Passcode logic
+        document.getElementById('keypad').addEventListener('click', (e) => {
+            if (!e.target.classList.contains('key')) return;
+            if (input.length < 6) {
+                input += e.target.innerText;
+                const dots = document.querySelectorAll('.dot');
+                dots[input.length-1].classList.add('filled');
+            }
+            if (input.length === 6) {
+                if (input === CORRECT_CODE) {
+                    document.getElementById('passcodePage').classList.add('hidden');
+                    document.getElementById('questionPage').classList.remove('hidden');
+                } else {
+                    document.getElementById('dotContainer').classList.add('shake');
+                    setTimeout(() => {
+                        alert("😢 Wrong code! 😭");
+                        document.getElementById('dotContainer').classList.remove('shake');
+                        input = "";
+                        document.querySelectorAll('.dot').forEach(d => d.classList.remove('filled'));
+                    }, 400);
+                }
+            }
+        });
+
+        function makeYesBigger() {
+            yesScale += 0.5;
+            document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
+        }
+
+        function goToFinal() {
+            document.getElementById('questionPage').classList.add('hidden');
+            document.getElementById('finalPage').classList.remove('hidden');
+        }
+
+        function openPopup(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closePopups() {
+            document.getElementById('msgPopup').classList.add('hidden');
+            document.getElementById('camPopup').classList.add('hidden');
+        }
+
+        // Background Hearts
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }, 400);
+    </script>
+</body>
+</html>
