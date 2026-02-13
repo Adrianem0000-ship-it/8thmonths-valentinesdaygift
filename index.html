@@ -23,7 +23,6 @@
             overflow: hidden;
         }
 
-        /* Floating Hearts Animation */
         .heart-bg {
             position: absolute;
             width: 100%;
@@ -56,7 +55,7 @@
             position: relative;
         }
 
-        h1, h3 { color: #d03160; margin-top: 0; }
+        h1, h2, h3 { color: #d03160; margin-top: 0; }
         .hidden { display: none !important; }
 
         /* Passcode Section */
@@ -123,6 +122,7 @@
             font-weight: bold;
             cursor: pointer;
             z-index: 10;
+            transition: transform 0.2s;
         }
 
         #noBtn {
@@ -134,7 +134,7 @@
             cursor: pointer;
         }
 
-        /* Gallery Screen */
+        /* Home Screen Icons */
         .app-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -162,8 +162,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
-            max-width: 300px;
+            width: 85%;
+            max-width: 320px;
             background: white;
             padding: 20px;
             border-radius: 25px;
@@ -171,28 +171,30 @@
             z-index: 100;
         }
 
-        .photo-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .photo-gallery {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
+            padding: 5px;
         }
 
-        .photo-grid img {
+        .photo-gallery img {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 15px;
             border: 2px solid var(--pink-light);
         }
 
         .close-btn {
             margin-top: 15px;
-            padding: 8px 15px;
-            border-radius: 10px;
+            padding: 10px 20px;
+            border-radius: 50px;
             border: none;
             background: var(--pink-dark);
             color: white;
             cursor: pointer;
+            width: 100%;
         }
     </style>
 </head>
@@ -224,31 +226,33 @@
     </div>
 
     <div id="finalPage" class="card hidden">
-        <h2 style="color: var(--pink-dark);">I Love You! ✨</h2>
+        <h2 style="color: var(--pink-dark);">Happy Valentine's! ✨</h2>
         <div class="app-grid">
             <div onclick="openPopup('msgPopup')">
                 <div class="icon-circle" style="background: #4cd964;">✉️</div>
-                <p style="font-size: 12px;">Message</p>
+                <p style="font-size: 12px; margin-top: 5px;">Message</p>
             </div>
             <div onclick="openPopup('camPopup')">
                 <div class="icon-circle" style="background: #ffcc00;">📷</div>
-                <p style="font-size: 12px;">Gallery</p>
+                <p style="font-size: 12px; margin-top: 5px;">Gallery</p>
             </div>
         </div>
 
         <div id="msgPopup" class="popup hidden">
-            <p>You are special to me, I can't explain in words how much i love you. I hope you know that i will always choose you, No matter how heavy the problem gets, leaving you will never be an option for me. Dahil kahit anong sungit mo ikaw pa rin ang pipiliin ko. Thank you bi for treating my heart so gently and for choosing me. Happy 8th Months of Love and Valentines bi, I love you!💖🌹</p>
+            <p>You are special to me, I
+can't explain in words how much i love you. I hope you know that i will always choose you, No matter how heavy the problem gets, leaving you will never be an option for me. Dahil kahit anong sungit mo ikaw pa rin ang pipiliin ko. Thank you bi for treating my heart so gently and for choosing me. Happy 8th Months of Love my Valentine, I love you!💖🌹</p>
             <button class="close-btn" onclick="closePopups()">Close</button>
         </div>
 
         <div id="camPopup" class="popup hidden">
-            <div class="photo-grid">
-                <img src="img1.png" alt="Photo 1">
-                <img src="img2.png" alt="Photo 2">
-                <img src="img3.png" alt="Photo 3">
-                <img src="img4.png" alt="Photo 4">
-                <img src="img5.png" alt="Photo 5">
-                <img src="img6.png" alt="Photo 6">
+            <div class="photo-gallery">
+                <img src="att.30Mf8SiZb8BUhgV7xA8f5u9OUIcPCz85yE8RDQSunNk.jpeg" alt="Us">
+                <img src="att.4sBf5UKbX1E79HptNN_2gAz0nl5LQSgx6jUoG5wrEKI.jpeg" alt="Us">
+                <img src="att.4vl4XhORsLwAcDbPDPUXJQneB6XIJhyC4Y37B0zRoac.jpeg" alt="Us">
+                <img src="att.OSMqGs4wY768EP3kmlv1QW82ip8wDX0BX0LByYpO0Zk.jpeg" alt="Us">
+                <img src="att.Xeu6QGcuickyKidGQ8GCbLqLt7jMJHXnHThNn7uzMBw.jpeg" alt="Us">
+                <img src="att.wxHphxhhC_uG93pfZInxJgTXzrTKPVjhAFizxEUaIEg.jpeg" alt="Us">
+                <img src="att.y1QqpYcgxLwqRo9G26H7u924vIhboZLG-3HQivc_O9k.jpeg" alt="Us">
             </div>
             <button class="close-btn" onclick="closePopups()">Close</button>
         </div>
@@ -269,8 +273,10 @@
             }
             if (input.length === 6) {
                 if (input === CORRECT_CODE) {
-                    document.getElementById('passcodePage').classList.add('hidden');
-                    document.getElementById('questionPage').classList.remove('hidden');
+                    setTimeout(() => {
+                        document.getElementById('passcodePage').classList.add('hidden');
+                        document.getElementById('questionPage').classList.remove('hidden');
+                    }, 300);
                 } else {
                     document.getElementById('dotContainer').classList.add('shake');
                     setTimeout(() => {
@@ -284,7 +290,7 @@
         });
 
         function makeYesBigger() {
-            yesScale += 0.5;
+            yesScale += 0.6;
             document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
         }
 
@@ -299,7 +305,7 @@
             document.getElementById('camPopup').classList.add('hidden');
         }
 
-        // Background Hearts
+        // Floating Hearts
         setInterval(() => {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
